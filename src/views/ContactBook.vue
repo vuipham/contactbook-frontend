@@ -21,6 +21,13 @@
                     Làm mới
                 </button>
                 <button class="btn btn-sm btn-success" @click="goToAddContact">
+                    <router-link
+                        :to="{
+                            name: 'contact.add',
+                            // params: { id:  contacts[_id]},
+                        }"
+                    >
+                    </router-link>
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
                 <button
@@ -49,6 +56,7 @@
                     <i class="fas fa-edit"></i> Hiệu chỉnh</span
                 >
                 </router-link>
+                
             </div>
         </div>
     </div>
