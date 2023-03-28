@@ -17,7 +17,7 @@
 
             <div class="mt-3 row justify-content-around align-items-center">
                 <button class="btn btn-sm btn-primary" @click="refreshList()">
-                    <!-- <i class="fa-solid fa-share"></i> -->
+                  
                     Làm mới
                 </button>
                 <button class="btn btn-sm btn-success" @click="goToAddContact">
@@ -34,7 +34,7 @@
                     class="btn btn-sm btn-danger"
                     @click="removeAllContacts"
                 >
-                <!-- <i class="fas fa-trash-restore"></i> -->
+               
                     Xóa tất cả
                 </button>
             </div>
@@ -60,19 +60,49 @@
             </div>
         </div>
     </div>
+    {{ message }}
 </template>
 
-<script>
-import ContactCard from "@/components/ContactCard.vue";
-import InputSearch from "@/components/InputSearch.vue";
-import ContactList from "@/components/ContactList.vue";
-import ContactService from "@/services/contact.service";
+<script lang="ts">
+import ContactCard from "../components/ContactCard.vue";
+import InputSearch from "../components/InputSearch.vue";
+import ContactList from "../components/ContactList.vue";
+import ContactService from "../services/contact.service";
+import { onMounted, ref } from "vue";
+
+import Store  from '../store/index'
 
 export default {
     components: {
         ContactCard,
         InputSearch,
         ContactList,
+    },
+    setup() {
+        const message = ref('You are not logged in!')
+        const store = Store
+        onMounted( async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/contacts/user', {
+                    headers: {"Content-Type": "application/json"},
+                    credentials: 'include'
+                })
+                if (!response) {
+                    await store.dispatch('setAuth', false)
+                    return message
+                } else {
+                    const content = await response.json()
+                    await store.dispatch('setAuth', true)
+                    return message.value = `Hi ${content.name}`
+                }
+            } catch (Exception) {
+                console.log(Exception)
+                await store.dispatch('setAuth', false)
+            }
+        });
+        return {
+            message
+        }
     },
 // Đoạn mã xử lý đầy đủ sẽ trình bày bên dưới
     data() {

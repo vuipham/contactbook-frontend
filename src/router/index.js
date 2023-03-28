@@ -1,8 +1,20 @@
 import { createWebHistory, createRouter } from "vue-router";
 import ContactBook from "@/views/ContactBook.vue";
 import ContactCreate from "@/views/ContactCreate.vue";
+import Register from '../views/Register.vue'
+import Signin from '../views/Signin.vue'
 
 const routes = [
+    {
+        path: "/register",
+        name: "register",
+        component: Register,
+    },
+    {
+        path: "/login",
+        name: "login",
+        component: Signin,
+    },
     {
         path: "/",
         name: "contactbook",
